@@ -1,0 +1,99 @@
+# Edit Markdown and LaTeX inside the block fields below.
+meta:
+  title: A mathematical talk
+  slug: starter
+  presenter: Speaker name
+  discussion_minutes: 1
+slides:
+- id: title
+  layout: title
+  title: A mathematical talk
+  kicker: Seminar · Date
+  body: |-
+    **Speaker name**
+
+    Affiliation
+
+    A short description of the problem.
+  visual: conics
+  minutes: 0.5
+  notes: Introduce the question.
+  central_message: State the question the talk will answer.
+- id: section-0
+  layout: section
+  title: The problem
+  nav_title: Problem
+  kicker: '0'
+  body: ''
+  minutes: 0
+  notes: ''
+- id: problem
+  layout: problem
+  title: How many points lie in the intersection of two general plane curves?
+  kicker: 'Problem:'
+  body: ''
+  minutes: 0.5
+  notes: Specify the degrees and hypotheses next.
+- id: setup
+  layout: standard
+  title: Intersection of plane curves
+  kicker: Parameter space and classes
+  body: |-
+    Let $C,D\subset\mathbb P^2$ be curves of degrees $d,e$ with no common component, and let $h=c_1(\mathcal O_{\mathbb P^2}(1))$.
+
+    $$CH^\bullet(\mathbb P^2)=\frac{\mathbb Z[h]}{(h^3)},\qquad [C]=dh,\quad [D]=eh.$$
+
+    > $$[C]\,[D]=de\,h^2=de\,[\mathrm{pt}].$$
+
+    The degree of the intersection class is $de$; local intersection multiplicities account for nontransverse intersections.
+  minutes: 2
+  notes: Explain each symbol before using the formula.
+- id: definition
+  layout: standard
+  title: First Chern class
+  kicker: Definition
+  body: PAPERSTATEMENT
+  statement_label: Definition · Divisor class
+  statement: For a smooth effective Cartier divisor $i:D\hookrightarrow X$, its Chow class is $$[D]=i_*1=c_1(\mathcal
+    O_X(D)).$$
+  minutes: 1
+  notes: The environment label and its body are both editable.
+  class: has-statement explained
+- id: square
+  layout: split
+  title: Blowup square
+  kicker: Geometry and maps
+  body: |-
+    Let $i:Z\hookrightarrow X$ be a smooth closed center and $\pi:\operatorname{Bl}_ZX\to X$ its blowup.
+
+    The exceptional divisor is $E=\mathbb P(\mathcal N_{Z/X})$; $p$ is its projection and $j$ its inclusion.
+
+    Pullbacks are ring homomorphisms; pushforwards are additive homomorphisms.
+  visual: square
+  minutes: 1
+  notes: Edit the diagram’s labels in Diagram text and labels.
+- id: code
+  layout: standard
+  title: Intersection of plane curves
+  kicker: A computation
+  body: Compute the product for degrees two and three.
+  code_title: Macaulay2 · saved example
+  code: |-
+    R = ZZ[h]/(h^3);
+    (2*h)*(3*h)
+    -- 6*h^2
+  code_result: 6h^2
+  minutes: 1
+  notes: The result is recorded, not a live execution.
+  class: with-code explained
+- id: closing
+  layout: title
+  title: A mathematical talk
+  kicker: Questions
+  body: |-
+    **Speaker name**
+
+    [Slides and source](https://github.com/zengrf/kiwari-slides)
+  visual: conics
+  minutes: 0.5
+  notes: Return to the opening question.

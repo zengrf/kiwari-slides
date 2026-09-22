@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en" data-time="day">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Kiwari slides · starter deck</title>
+  <meta name="description" content="Editable mathematical slides with an audience export.">
+  <link rel="stylesheet" href="lib/fonts.css">
+  <link rel="stylesheet" href="lib/katex/katex.min.css">
+  <link rel="stylesheet" href="materials.css">
+  <link rel="stylesheet" href="slides.css?v=conics-realigned-20260921">
+  <script defer src="lib/js-yaml.min.js"></script>
+  <script defer src="lib/marked.min.js"></script>
+  <script defer src="lib/katex/katex.min.js"></script>
+  <script defer src="paper-math.js?v=fsum-centered-20260920"></script>
+  <script defer src="m2-live.js?v=editable-20260921"></script>
+  <script defer src="title-conics.js?v=title-range-20260921"></script>
+  <script defer src="figures.js?v=conics-parallel-20260921"></script>
+  <script defer src="deck-data.js"></script>
+  <script defer src="server-save.js"></script>
+  <script defer src="slide-format.js?v=formatting-help-20260920"></script>
+  <script defer src="figure-text.js?v=editable-20260921"></script>
+  <script defer src="slides.js?v=all-text-editable-20260921"></script>
+</head>
+<body>
+  <header class="toolbar" aria-label="Presentation controls">
+    <a href="https://github.com/zengrf/kiwari-slides" class="home-link" title="Michael R. Zeng’s website">曽 <span>Kiwari slides</span></a>
+    <div class="tools">
+      <button id="overview-button" title="Overview (O)">Overview</button>
+      <button id="theme-button" title="Change lighting (T)">Day</button>
+      <button id="edit-button" title="Edit slides (E)">Edit</button>
+      <button id="presenter-button" title="Speaker notes (P)">Presenter</button>
+      <button id="m2-button" hidden title="Open the live Macaulay2 demo">M2</button>
+      <button id="print-button" title="Print or save PDF">PDF</button>
+      <button id="fullscreen-button" title="Fullscreen (F)">⛶</button>
+      <button id="help-button" aria-label="Formatting and keyboard help" title="Formatting and keyboard help (?)">?</button>
+    </div>
+  </header>
+  <nav id="section-nav" aria-label="Talk sections" hidden>
+    <div id="section-links"></div>
+    <label class="section-picker" for="section-select"><span>Section</span><select id="section-select" aria-label="Jump to a section"></select></label>
+  </nav>
+  <main id="workspace">
+    <section id="stage" aria-label="Slide presentation">
+      <div id="slide-viewport"><article id="slide" class="slide"><p class="loading">Loading the seminar…</p></article></div>
+      <div class="navline">
+        <button id="previous" aria-label="Previous slide">←</button>
+        <span id="slide-counter" aria-live="polite"></span>
+        <span id="section-label"></span>
+        <button id="next" aria-label="Next slide">→</button>
+      </div>
+      <div id="progress" role="progressbar" aria-label="Presentation progress" aria-valuemin="1"><i></i></div>
+    </section>
+    <aside id="editor" hidden aria-label="Slide editor">
+      <div class="editor-heading"><h2>Edit this slide</h2><button id="close-editor" aria-label="Close editor">×</button></div>
+      <p id="editor-save-hint" class="editor-hint">Changes preview immediately. Save to server to keep them on this Mac.</p>
+      <div class="editor-actions save-actions"><button id="save-server" class="primary" disabled title="Save all deck edits to this Mac (⌘S / Ctrl+S)">Save to server</button><a id="save-sign-in" hidden target="_blank" rel="noopener">Sign in again</a></div>
+      <p id="save-status" role="status" aria-live="polite"></p>
+      <label>Slide<select id="edit-select"></select></label>
+      <label>Title<input id="edit-title"></label>
+      <label>Slide label<input id="edit-kicker"></label>
+      <label>Section navigation label<input id="edit-nav_title" placeholder="Used on section title slides"></label>
+      <div class="editor-row">
+        <label>Layout<select id="edit-layout"><option>standard</option><option>split</option><option>title</option><option>theorem</option><option>result</option><option>closing</option><option>section</option><option>problem</option></select></label>
+        <label>Minutes<input id="edit-minutes" type="number" min="0" max="60" step="0.5"></label>
+      </div>
+      <label>Content · Markdown + $LaTeX$<textarea id="edit-body" rows="10" spellcheck="false"></textarea></label>
+      <details id="edit-figure-text" open hidden><summary>Diagram text and labels</summary><p class="editor-hint">Includes text embedded in illustrations. Edits apply to this slide and are saved with the deck.</p><div id="edit-figure-fields"></div></details>
+      <div id="edit-statement-titles"></div>
+      <label>Statement<textarea id="edit-statement" rows="5" spellcheck="false"></textarea></label>
+      <label>Code heading<input id="edit-code_title" placeholder="Macaulay2"></label>
+      <label>Code excerpt · displayed on slide<textarea id="edit-code" rows="6" spellcheck="false"></textarea></label>
+      <label>Displayed expected result · LaTeX<textarea id="edit-code_result" rows="2" spellcheck="false"></textarea></label>
+      <p class="editor-hint">This starter displays saved code and output; it does not execute code.</p>
+      <label>Illustration<select id="edit-visual"></select></label>
+      <label>Speaker notes<textarea id="edit-notes" rows="6"></textarea></label>
+      <div class="editor-actions"><button id="add-slide">Add slide</button><button id="duplicate-slide">Duplicate</button><button id="delete-slide">Delete</button></div>
+      <div class="editor-actions"><button id="export-yaml">Export YAML</button><button id="import-yaml">Import YAML</button><input id="import-file" type="file" accept=".yaml,.yml" hidden></div>
+      <button id="reset-draft" class="text-button">Load server version</button>
+    </aside>
+    <aside id="speaker" hidden aria-label="Speaker notes">
+      <p class="eyebrow">Presenter view</p>
+      <div class="clock-row"><span id="timer">00:00</span><button id="timer-toggle">Start</button><button id="timer-reset">Reset</button></div>
+      <p id="timing"></p>
+      <h2 id="speaker-title"></h2><div id="speaker-notes"></div>
+      <h3>Next slide</h3><p id="up-next"></p>
+      <p class="editor-hint">Keep this window on your laptop and the presentation window on the projector. Navigation stays synchronized.</p>
+    </aside>
+  </main>
+  <dialog id="overview"><div class="dialog-heading"><h2>Seminar map</h2><button data-close="overview" aria-label="Close overview">×</button></div><div id="overview-grid"></div></dialog>
+  <dialog id="help" aria-labelledby="help-title">
+    <div class="dialog-heading"><h2 id="help-title">Formatting &amp; shortcuts</h2><button data-close="help" aria-label="Close help">×</button></div>
+    <p class="format-intro">Copy an example into <strong>Content</strong> or <strong>Statement</strong> in the slide editor. Changes preview immediately; <strong>Save to server</strong> keeps them on this Mac.</p>
+    <details open><summary>Text size, spacing &amp; alignment</summary><p class="format-context">Use these helpers in ordinary slide text, outside <code>$…$</code>. Keep the braces around their contents.</p><div id="format-text" class="format-grid"></div></details>
+    <details><summary>Math notation &amp; equation layout</summary><p class="format-context">These examples include their math delimiters. Inside math, use <code>aligned</code>, <code>gathered</code>, and math spacing commands. <a href="https://katex.org/docs/supported.html" target="_blank" rel="noopener noreferrer">Full KaTeX reference</a></p><div id="format-math" class="format-grid"></div></details>
+    <details><summary>Keyboard &amp; presenting</summary><dl><dt>← / → / Space</dt><dd>Previous / next slide</dd><dt>Home / End</dt><dd>First / last slide</dd><dt>O</dt><dd>Slide overview</dd><dt>P</dt><dd>Separate presenter window with notes and timer</dd><dt>E / T / F</dt><dd>Edit / change lighting / fullscreen</dd><dt>B</dt><dd>Blank the projection</dd><dt>⌘S / Ctrl+S</dt><dd>Save edits to this Mac</dd><dt>?</dt><dd>Open this help menu</dd></dl><p>The section bar jumps to each section’s title slide. On smaller screens, use the Section selector. The PDF button prints the complete talk, including your formatting.</p></details>
+    <p id="format-copy-status" role="status" aria-live="polite"></p>
+  </dialog>
+  <div id="print-deck" aria-hidden="true"></div>
+  <div id="blank-screen" hidden></div>
+  <div id="toast" role="status"></div>
+</body>
+</html>

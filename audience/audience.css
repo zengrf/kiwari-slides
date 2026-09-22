@@ -1,0 +1,20 @@
+html,body {height:100%;overflow:hidden;}
+#stage {height:calc(100dvh - 46px);padding:0;display:flex;align-items:center;justify-content:center;}
+#slide-viewport {box-shadow:none;}
+#audience-nav {height:46px;position:fixed;bottom:0;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:16px;border-top:1px solid var(--line);background:var(--bay);font-size:16px;}
+#audience-nav button {border:0;padding:4px 12px;}
+#audience-nav select {max-width:min(55vw,420px);background:transparent;border:0;color:var(--ink);padding:4px;}
+#counter {font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap;}
+.recorded-actions {display:flex;flex-wrap:wrap;gap:7px;margin-top:12px;font-size:18px;}
+.recorded-caption {font-size:14px;color:var(--muted);margin:10px 0 4px;}
+.recorded-answer {font-size:23px;}
+#record-dialog {width:min(1240px,96vw);max-height:94dvh;overflow:auto;padding:20px 28px;}
+#record-dialog .dialog-heading {position:sticky;top:-20px;background:var(--bay);z-index:2;padding:8px 0;}
+#record-title {font-size:28px;margin:0;}#close-record {font-size:24px;}
+#record-tabs {display:flex;gap:8px;margin:10px 0;}
+#record-tabs [aria-pressed=true] {background:var(--accent);color:var(--bay);}
+#record-pretty {font-size:24px;overflow:auto;padding:10px;}
+#record-raw,#record-source {font:14px/1.5 ui-monospace,monospace;white-space:pre;overflow:auto;background:var(--panel);padding:18px;max-height:48vh;}
+#record-provenance {color:var(--muted);font-size:15px;}
+@media(max-width:650px){#audience-nav {gap:4px;font-size:13px;}#audience-nav button {padding:5px 8px;}#record-dialog {padding:12px;}#record-pretty {font-size:19px;}#record-raw,#record-source {font-size:12px;}#record-title {font-size:22px;}}
+@media print {html,body {height:auto;overflow:visible;}#stage,#audience-nav,dialog {display:none!important;}#print-deck {display:block!important;}}

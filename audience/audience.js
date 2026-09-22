@@ -1,0 +1,21 @@
+'use strict';
+const release=JSON.parse(document.querySelector('#audience-data').textContent);
+const slides=release.slides, records=release.records||{}, $=s=>document.querySelector(s);
+let index=0,gesture=null;
+function resize(){const scale=Math.min(innerWidth/1280,(innerHeight-46)/720);$('#slide-viewport').style.width=1280*scale+'px';$('#slide-viewport').style.height=720*scale+'px';$('#slide').style.transform=`scale(${scale})`;}
+function go(n){index=Math.max(0,Math.min(slides.length-1,n));const s=slides[index];$('#slide').className=s.class;$('#slide').innerHTML=s.html;history.replaceState(null,'','#'+encodeURIComponent(s.id));$('#counter').textContent=`${index+1} / ${slides.length}`;$('#previous').disabled=index===0;$('#next').disabled=index===slides.length-1;const section=slides.slice(0,index+1).filter(s=>s.layout==='section').pop()?.id;$('#sections').value=section||'';resize();window.__audienceIndex=index;}
+function showRecord(name,power=5,source=false){const record=records[name];if(!record)return;const dialog=$('#record-dialog');dialog.dataset.record=name;$('#record-title').textContent=record.title;$('#record-source').textContent=record.source;$('#record-download').href='code/'+name+'.m2';$('#record-source').hidden=!source;$('#record-output').hidden=source;$('#record-tabs').hidden=source||!record.powers;$('#record-provenance').textContent=`Recorded with Macaulay2 ${record.version}${record.recorded_at?' · '+record.recorded_at.slice(0,10):''}`;if(!source){const p=record.powers?.[power-1];$('#record-pretty').innerHTML=p?.html||record.html;$('#record-raw').textContent=p?.transcript||record.transcript;$('#record-tabs').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.power)===power)));}if(!dialog.open)dialog.showModal();}
+$('#previous').onclick=()=>go(index-1);$('#next').onclick=()=>go(index+1);
+$('#fullscreen').onclick=()=>{if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen?.().catch(()=>{});};
+for(const [i,s] of slides.entries())if(s.layout==='section'){const o=document.createElement('option');o.value=s.id;o.textContent=s.nav||s.title;$('#sections').append(o);}
+$('#sections').onchange=e=>go(slides.findIndex(s=>s.id===e.target.value));
+$('#close-record').onclick=()=>$('#record-dialog').close();
+$('#record-tabs').onclick=e=>{const button=e.target.closest('[data-power]');if(button)showRecord($('#record-dialog').dataset.record,Number(button.dataset.power));};
+document.addEventListener('click',e=>{const button=e.target.closest('[data-record]');if(button){showRecord(button.dataset.record,Number(button.dataset.power||5),button.hasAttribute('data-source'));return;}const link=e.target.closest('a[href^="#record-"]');if(link){e.preventDefault();showRecord(link.getAttribute('href').slice(8));}});
+document.addEventListener('keydown',e=>{if(e.ctrlKey||e.metaKey||e.altKey||/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)||$('dialog[open]'))return;if(e.target.closest('button,a')&&[' ','Enter'].includes(e.key))return;if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(index+1);}else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(index-1);}else if(e.key==='Home')go(0);else if(e.key==='End')go(slides.length-1);else if(e.key.toLowerCase()==='f')$('#fullscreen').click();});
+$('#stage').addEventListener('pointerdown',e=>{if(e.target.closest('button,a,iframe'))return;gesture={x:e.clientX,y:e.clientY};});
+$('#stage').addEventListener('pointerup',e=>{if(!gesture)return;const dx=e.clientX-gesture.x,dy=e.clientY-gesture.y;gesture=null;if(Math.abs(dx)>65&&Math.abs(dx)>Math.abs(dy)*1.6)go(index+(dx<0?1:-1));});
+window.addEventListener('hashchange',()=>{const i=slides.findIndex(s=>s.id===decodeURIComponent(location.hash.slice(1)));if(i>=0)go(i);});window.addEventListener('resize',resize);
+window.prepareAudiencePrint=()=>{$('#print-deck').innerHTML=slides.map(s=>`<article class="${s.class}">${s.html}</article>`).join('');};
+window.addEventListener('beforeprint',prepareAudiencePrint);
+go(Math.max(0,slides.findIndex(s=>s.id===decodeURIComponent(location.hash.slice(1)))));document.fonts.ready.then(resize);window.__audience={go,showRecord,slides,records};window.__ready=true;
