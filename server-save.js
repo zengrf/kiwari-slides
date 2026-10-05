@@ -51,7 +51,7 @@ const DeckStorage=(()=>{
       const raw=localStorage.getItem(DRAFT_KEY);
       if(raw){
         const stored=JSON.parse(raw);
-        const draft=validDeck(stored.format===2?stored.deck:stored);
+        const draft=validDeck(stored.format===2?stored.deck:stored,true);
         if(JSON.stringify(draft)!==savedJSON){
           working=draft;
           revision=stored.format===2?stored.baseRevision:null;
@@ -86,6 +86,7 @@ const DeckStorage=(()=>{
       const id=deck.slides[index].id;
       deck=JSON.parse(JSON.stringify(original));savedJSON=JSON.stringify(original);
       clearTimeout(saveTimer);remember();rebuildSelect();go(Math.max(0,deck.slides.findIndex(s=>s.id===id)));
+      DeckHistory.reset();EditorTools.refresh(true);
       $('#save-sign-in').hidden=true;status('Latest saved version loaded.');
       channel?.postMessage(message());
     }catch(e){status(e.message,true);$('#save-sign-in').hidden=e.status!==401;}

@@ -52,7 +52,7 @@ def main():
    b.ev('window.EXPORT_RECORDINGS='+json.dumps(records))
    exporter=Path(__file__).with_name('export-render.js').read_text();release=b.ev(exporter)
    assert not b.ev('mathErrors'),b.ev('mathErrors')
-   for name in ['slides.css','materials.css','title-conics.js']:shutil.copy2(source/name,out/name)
+   for name in ['slides.css','materials.css','slide-layout.css','title-conics.js']:shutil.copy2(source/name,out/name)
    for name in ['assets','lib']:
     if (source/name).exists():shutil.copytree(source/name,out/name,dirs_exist_ok=True)
    # Rendering libraries and authoring data are not needed by the audience runtime.

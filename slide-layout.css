@@ -1,0 +1,21 @@
+/* Shared by the editor, printing, and audience export. */
+.slide.design-custom .slide-grid {height:auto;}
+.slide.design-custom .slide-body {max-width:none;width:100%;}
+.slide.design-custom .slide-content {font-size:28px;line-height:1.3;}
+.slide.design-custom .editor-columns {display:grid;gap:32px;align-items:start;}
+.slide.design-columns-2 .editor-columns {grid-template-columns:minmax(0,var(--design-columnRatio,50%)) minmax(0,1fr);}
+.slide.design-columns-3 .editor-columns {grid-template-columns:repeat(3,minmax(0,1fr));}
+.slide.design-custom .editor-column {min-width:0;}
+.slide.design-custom .editor-column h3 {font-size:32px;margin:0 0 16px;}
+.slide.design-custom .editor-column img {max-width:100%;width:100%;height:auto;}
+.slide.design-titleSize h1 {font-size:var(--design-titleSize)!important;}
+.slide.design-bodySize .slide-content,.slide.design-bodySize .slide-content :is(p,li,td,th) {font-size:var(--design-bodySize)!important;}
+.slide.design-headingSize .slide-content :is(h2,h3,h4) {font-size:var(--design-headingSize)!important;}
+.slide.design-lineHeight .slide-content,.slide.design-lineHeight .slide-content :is(p,li,td) {line-height:var(--design-lineHeight)!important;}
+.slide.design-paragraphGap .slide-content p {margin-bottom:var(--design-paragraphGap)!important;}
+.slide.design-columnGap :is(.property-grid,.editor-columns,.slide-grid) {column-gap:var(--design-columnGap)!important;}
+.slide.design-columnRatio .property-grid:has(>.property-card:nth-child(2)):not(:has(>.property-card:nth-child(3))) {grid-template-columns:minmax(0,var(--design-columnRatio)) minmax(0,1fr)!important;}
+.slide.design-paddingX {padding-left:var(--design-paddingX)!important;padding-right:var(--design-paddingX)!important;}
+.slide.design-paddingY {padding-top:var(--design-paddingY)!important;padding-bottom:var(--design-paddingY)!important;}
+.slide.design-contentOffset .slide-content {position:relative;top:var(--design-contentOffset);}
+.slide.design-align .slide-content,.slide.design-align .slide-content :is(p,h2,h3,h4,td,th) {text-align:var(--design-align)!important;}

@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="lib/katex/katex.min.css">
   <link rel="stylesheet" href="materials.css">
   <link rel="stylesheet" href="slides.css?v=conics-realigned-20260921">
+  <link rel="stylesheet" href="slide-layout.css?v=20261004">
+  <link rel="stylesheet" href="editor-tools.css?v=20261004">
   <script defer src="lib/js-yaml.min.js"></script>
   <script defer src="lib/marked.min.js"></script>
   <script defer src="lib/katex/katex.min.js"></script>
@@ -17,10 +19,12 @@
   <script defer src="title-conics.js?v=title-range-20260921"></script>
   <script defer src="figures.js?v=conics-parallel-20260921"></script>
   <script defer src="deck-data.js"></script>
-  <script defer src="server-save.js"></script>
+  <script defer src="server-save.js?v=editor-tools-20261004"></script>
   <script defer src="slide-format.js?v=formatting-help-20260920"></script>
   <script defer src="figure-text.js?v=editable-20260921"></script>
-  <script defer src="slides.js?v=all-text-editable-20260921"></script>
+  <script defer src="slide-layout.js?v=20261004"></script>
+  <script defer src="editor-tools.js?v=20261004"></script>
+  <script defer src="slides.js?v=editor-tools-20261004"></script>
 </head>
 <body>
   <header class="toolbar" aria-label="Presentation controls">
@@ -61,7 +65,7 @@
       <label>Slide label<input id="edit-kicker"></label>
       <label>Section navigation label<input id="edit-nav_title" placeholder="Used on section title slides"></label>
       <div class="editor-row">
-        <label>Layout<select id="edit-layout"><option>standard</option><option>split</option><option>title</option><option>theorem</option><option>result</option><option>closing</option><option>section</option><option>problem</option></select></label>
+        <label>Slide type<select id="edit-layout"><option>standard</option><option>split</option><option>title</option><option>theorem</option><option>result</option><option>closing</option><option>section</option><option>problem</option></select></label>
         <label>Minutes<input id="edit-minutes" type="number" min="0" max="60" step="0.5"></label>
       </div>
       <label>Content · Markdown + $LaTeX$<textarea id="edit-body" rows="10" spellcheck="false"></textarea></label>
@@ -93,6 +97,7 @@
     <p class="format-intro">Copy an example into <strong>Content</strong> or <strong>Statement</strong> in the slide editor. Changes preview immediately; <strong>Save to server</strong> keeps them on this Mac.</p>
     <details open><summary>Text size, spacing &amp; alignment</summary><p class="format-context">Use these helpers in ordinary slide text, outside <code>$…$</code>. Keep the braces around their contents.</p><div id="format-text" class="format-grid"></div></details>
     <details><summary>Math notation &amp; equation layout</summary><p class="format-context">These examples include their math delimiters. Inside math, use <code>aligned</code>, <code>gathered</code>, and math spacing commands. <a href="https://katex.org/docs/supported.html" target="_blank" rel="noopener noreferrer">Full KaTeX reference</a></p><div id="format-math" class="format-grid"></div></details>
+    <details><summary>Organizing slides &amp; layout</summary><p>Choose <strong>Organize</strong> to drag slides by their handles. Select several slides, or use <strong>Select section</strong>, to move or duplicate them together. <strong>First</strong>, <strong>Last</strong>, and <strong>Position</strong> also work on phones. A focused drag handle supports ↑ / ↓ and Home / End.</p><p>In Edit, open <strong>Slide layout &amp; spacing</strong> for columns, text sizes, margins, and alignment. <strong>Image size &amp; crop</strong> changes one image at a time. <strong>Arrange columns &amp; panels</strong> reorders the blocks separated by <code>---</code>. Empty settings keep the original design.</p><p><strong>Undo / Redo</strong> restores deck edits, including deleted slides. ⌘Z / Ctrl+Z works outside text fields; within a text field it keeps native text undo. Use <strong>Save to server</strong> to keep your changes across devices.</p></details>
     <details><summary>Keyboard &amp; presenting</summary><dl><dt>← / → / Space</dt><dd>Previous / next slide</dd><dt>Home / End</dt><dd>First / last slide</dd><dt>O</dt><dd>Slide overview</dd><dt>P</dt><dd>Separate presenter window with notes and timer</dd><dt>E / T / F</dt><dd>Edit / change lighting / fullscreen</dd><dt>B</dt><dd>Blank the projection</dd><dt>⌘S / Ctrl+S</dt><dd>Save edits to this Mac</dd><dt>?</dt><dd>Open this help menu</dd></dl><p>The section bar jumps to each section’s title slide. On smaller screens, use the Section selector. The PDF button prints the complete talk, including your formatting.</p></details>
     <p id="format-copy-status" role="status" aria-live="polite"></p>
   </dialog>

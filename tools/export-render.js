@@ -14,6 +14,6 @@
  // The static Julia viewer uses the same iframe location; its export has no solver UI.
  if(FIGURES['conics-live'])FIGURES['conics-live'].html=()=>'<iframe class="conics-frame" src="conics/?embed=1" title="Saved Julia solutions: 3264 conics" loading="lazy"></iframe><div class="conics-print"><img src="conics/preview.png" alt="Five conics and a recorded tangent solution"><p>Explore the saved solutions in the online slides.</p></div>';
  const plain=text=>{const node=document.createElement('div');node.innerHTML=markdown(text,true);node.querySelectorAll('.katex-mathml').forEach(e=>e.remove());return node.textContent;};
- const result=deck.slides.map((s,i)=>{const copy={...s};copy.body=(copy.body||'').replace('[Edit and run the full Macaulay2 script](./m2/?preset=conics)','[View the Macaulay2 script and recorded outputs](#record-conics)');return {id:s.id,title:plain(s.title),nav:plain(s.nav_title||s.title),layout:s.layout,class:classes(s),html:renderSlide(copy,i)};});
+ const result=deck.slides.map((s,i)=>{const copy={...s};copy.body=(copy.body||'').replace('[Edit and run the full Macaulay2 script](./m2/?preset=conics)','[View the Macaulay2 script and recorded outputs](#record-conics)');return {id:s.id,title:plain(s.title),nav:plain(s.nav_title||s.title),layout:s.layout,class:classes(s),style:SlideLayout.style(s),html:renderSlide(copy,i)};});
  return {title:deck.slides[0].title,slides:result,records};
 })()

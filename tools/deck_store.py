@@ -22,6 +22,44 @@ class DeckDumper(yaml.SafeDumper):
     pass
 
 
+def validate_design(design):
+    if design is None:
+        return
+    if not isinstance(design, dict):
+        raise ValueError('Slide design must be an object.')
+    limits = {'titleSize': (28, 100), 'bodySize': (14, 48), 'headingSize': (18, 60),
+              'lineHeight': (1, 2), 'paragraphGap': (0, 60), 'columnGap': (0, 120),
+              'paddingX': (24, 140), 'paddingY': (20, 120), 'contentOffset': (-80, 100),
+              'columnRatio': (20, 80)}
+    enums = {'preset': ('text', 'columns-2', 'columns-3'), 'align': ('left', 'center', 'right')}
+    image_limits = {'width': (40, 1152), 'height': (40, 600), 'x': (0, 100), 'y': (0, 100)}
+
+    def number(value, bounds):
+        return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value) and bounds[0] <= value <= bounds[1]
+
+    for key, value in design.items():
+        if key in limits:
+            if not number(value, limits[key]):
+                raise ValueError('Invalid slide design: ' + key)
+        elif key in enums:
+            if value not in enums[key]:
+                raise ValueError('Invalid slide design: ' + key)
+        elif key == 'images':
+            if not isinstance(value, dict):
+                raise ValueError('Invalid image settings.')
+            for image in value.values():
+                if not isinstance(image, dict):
+                    raise ValueError('Invalid image settings.')
+                for name, setting in image.items():
+                    if name == 'fit':
+                        if setting not in ('cover', 'contain'):
+                            raise ValueError('Invalid image fit.')
+                    elif name not in image_limits or not number(setting, image_limits[name]):
+                        raise ValueError('Invalid image setting: ' + name)
+        else:
+            raise ValueError('Unknown slide design setting: ' + key)
+
+
 DeckDumper.add_representer(str, lambda dumper, value: dumper.represent_scalar(
     'tag:yaml.org,2002:str', value, style='|' if '\n' in value else None))
 
@@ -42,6 +80,7 @@ def validate(deck):
         seen.add(key)
         if not slide.get('title'):
             raise ValueError('Each slide needs a title.')
+        validate_design(slide.get('design'))
         for field in TEXT_FIELDS:
             if slide.get(field) is not None and not isinstance(slide[field], str):
                 raise ValueError('Slide fields must contain text: ' + field)

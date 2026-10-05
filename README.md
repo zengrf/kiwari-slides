@@ -1,6 +1,6 @@
 # Kiwari slides
 
-Mathematical slides in the cedar, washi-paper, and Garamond style of [Michael Ruofan Zeng’s website](https://zengrf.github.io). Includes a small starter talk, a visual Markdown/LaTeX editor, theorem environments, editable diagram labels, speaker notes, section navigation, formatting help, and a separate static audience exporter.
+Mathematical slides in the cedar, washi-paper, and Garamond style of [Michael Ruofan Zeng’s website](https://zengrf.github.io). Includes a small starter talk, a visual Markdown/LaTeX editor, drag-and-drop slide organization, undo/redo, layout and image controls, theorem environments, editable diagram labels, speaker notes, section navigation, formatting help, and a separate static audience exporter.
 
 Read [Slide-writing guidelines](SLIDE-WRITING-GUIDELINES.md) for the mathematical and editorial discipline behind the toolkit.
 
@@ -20,6 +20,32 @@ Open the printed localhost URL. Click **Edit** or press **E**. Edit text, formul
 Alternatively, open `index.html` directly for browser drafts and YAML import/export. After editing `deck.yaml` externally, run `python tools/sync.py` to refresh the direct-file fallback.
 
 Copy this repository for each talk. Change `deck.yaml`, then preview every affected slide. The starter examples are deliberately short; `figures.js` provides reusable mathematical diagrams and an animated tangent-conic title illustration. Fonts and rendering libraries are bundled with their licenses.
+
+## Organize and arrange slides
+
+Choose **Organize** to see slide thumbnails, search, and drag slides by their handles. Mouse, touch, and keyboard are supported; a focused handle accepts ↑ / ↓ and Home / End. Select several slides or **Select section** to move, duplicate, or delete them together. **First**, **Last**, and **Position** move the selection directly. Add slides or section dividers from the same window.
+
+In **Edit**, open **Slide layout & spacing** for one, two, or three columns; title/body/heading sizes; margins, line and paragraph spacing; alignment; and two-column proportions. **Arrange columns & panels** edits and reorders the blocks separated by `---`. **Image size & crop** adjusts an individual image without changing the original asset. The fit indicator flags content outside the slide's safe area. Empty settings preserve the existing design; reset controls remove only layout adjustments.
+
+**Undo / Redo** includes content, layout, slide order, additions, duplication, and deletion. Use ⌘Z / Ctrl+Z outside a text field; text fields keep native text undo. History lasts for the editing session. Use **Save to server** to publish changes to the authoring directory. Browser drafts survive reloads, and a stale save cannot overwrite a newer server revision.
+
+Layout overrides are stored in the optional per-slide `design` object and survive YAML export/import, printing, and audience export. For example:
+
+```yaml
+design:
+  preset: columns-2
+  bodySize: 28
+  columnGap: 32
+  columnRatio: 55
+  images:
+    assets/photo.jpg:
+      height: 300
+      fit: cover
+      x: 50
+      y: 40
+```
+
+The toolkit keeps Kiwari's existing theme and starter slides; the editor modules use the theme's color and font variables.
 
 ## Authoring fields
 
